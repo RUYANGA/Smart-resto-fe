@@ -1910,8 +1910,6 @@ function PaymentsTab({
   onFetchPayments,
   onFetchTransactions,
   onDateFilterChange,
-  token,
-  API_BASE_URL,
   statistics,
 }: {
   payments: Payment[];
@@ -1923,8 +1921,6 @@ function PaymentsTab({
   onFetchPayments: (page: number, startDate?: string, endDate?: string) => void;
   onFetchTransactions: (page: number, startDate?: string, endDate?: string) => void;
   onDateFilterChange: (filter: { startDate: string; endDate: string }) => void;
-  token: string | null;
-  API_BASE_URL: string;
   statistics: Statistics;
 }) {
   const [viewMode, setViewMode] = useState<"payments" | "transactions">("payments");

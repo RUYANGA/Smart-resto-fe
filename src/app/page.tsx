@@ -1,4 +1,5 @@
-import Link from "next/link";
+
+import Image from "next/image";
 
 const heroStats = [
   { label: "Active Students", value: "1,245+" },
@@ -32,10 +33,12 @@ export default function Page() {
       <section className="relative overflow-hidden">
         <div className="absolute inset-0">
           <div className="absolute inset-0 bg-linear-to-br from-gray-900 via-gray-950 to-black opacity-95" />
-          <img
+          <Image
             src="https://images.unsplash.com/photo-1600891964599-f61ba0e24092?auto=format&fit=crop&w=1600&q=80"
             alt="Cafeteria"
+            fill
             className="w-full h-full object-cover opacity-30"
+            priority
           />
         </div>
 

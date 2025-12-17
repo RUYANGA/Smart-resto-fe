@@ -156,7 +156,7 @@ export default function StudentDashboard() {
         DINNER: { label: "Dinner", price: exactRwfPrices.DINNER / exchangeRate },
       };
     },
-    [currency]
+    [currency, exactRwfPrices.BREAKFAST, exactRwfPrices.LUNCH, exactRwfPrices.DINNER, exchangeRate]
   );
 
   // Convert amount from USD (stored) to display currency
