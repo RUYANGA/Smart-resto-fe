@@ -100,7 +100,7 @@ export default function StaffDashboard() {
       });
       if (!res.ok) return;
       const data = await res.json();
-      const mapped: ScanRecord[] = (data || []).map((booking: any) => {
+      const mapped: ScanRecord[] = (data || []).map((booking: Record<string, unknown>) => {
         const status =
           booking.status === "CONSUMED"
             ? "approved"
@@ -149,7 +149,7 @@ export default function StaffDashboard() {
 
       let status: ScanStatus = "approved";
       let message = "Access granted";
-      let responseData: any = {};
+      let responseData: Record<string, unknown> = {};
 
       if (!res.ok) {
         const errorText = await res.text();
@@ -177,7 +177,7 @@ export default function StaffDashboard() {
 
       setScanHistory((prev) => [record, ...prev].slice(0, 10));
       setToast({ type: status === "approved" ? "success" : "error", message });
-    } catch (error: any) {
+    } catch (error: unknown) {
       console.error("QR verification failed:", error);
       setToast({
         type: "error",

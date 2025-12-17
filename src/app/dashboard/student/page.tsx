@@ -236,7 +236,7 @@ export default function StudentDashboard() {
       if (resolvedStudentId) {
         await fetchBookings(resolvedStudentId);
       }
-    } catch (err: any) {
+    } catch (err: unknown) {
       console.error("Dashboard fetch error:", err);
       setError(err.message || "Failed to load dashboard");
     } finally {
@@ -520,7 +520,7 @@ export default function StudentDashboard() {
         timestamp: new Date().toISOString(),
       });
       await Promise.all([fetchBookings(), fetchUser(user.id)]);
-    } catch (err: any) {
+    } catch (err: unknown) {
       setToast({
         type: "error",
         message: err.message || "Failed to book meal",
@@ -685,7 +685,7 @@ export default function StudentDashboard() {
       setTimeout(() => {
         closeTopUpForm();
       }, 1500);
-    } catch (err: any) {
+    } catch (err: unknown) {
       setTopUpError(err.message || "Unable to process top-up.");
     } finally {
       setTopUpLoading(false);

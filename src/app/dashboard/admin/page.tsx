@@ -187,7 +187,7 @@ export default function AdminDashboard() {
         fetchPayments(1), // Load payments on initial dashboard load
         fetchTransactions(1), // Load transactions on initial dashboard load
       ]);
-    } catch (err: any) {
+    } catch (err: unknown) {
       console.error("Dashboard fetch error:", err);
       setError(err.message || "Failed to load dashboard");
     } finally {
@@ -311,7 +311,7 @@ export default function AdminDashboard() {
         totalRevenue,
         walletLiability,
       });
-    } catch (err: any) {
+    } catch (err: unknown) {
       console.error("Statistics fetch error:", err);
       // Only set error for network errors, not HTTP errors
       if (err.message?.includes("Failed to fetch") || err.message?.includes("NetworkError")) {
@@ -356,7 +356,7 @@ export default function AdminDashboard() {
       const data = await res.json();
       setUsers(data.users || []);
       setUsersTotal(data.meta?.total || 0);
-    } catch (err: any) {
+    } catch (err: unknown) {
       console.error("Fetch users error:", err);
       setUsers([]);
       setUsersTotal(0);
@@ -398,7 +398,7 @@ export default function AdminDashboard() {
       const data = await res.json();
       setMeals(data.meals || []);
       setMealsTotal(data.meta?.total || 0);
-    } catch (err: any) {
+    } catch (err: unknown) {
       console.error("Fetch meals error:", err);
       setMeals([]);
       setMealsTotal(0);
@@ -439,7 +439,7 @@ export default function AdminDashboard() {
       
       setPayments(paymentsList);
       setPaymentsTotal(total);
-    } catch (err: any) {
+    } catch (err: unknown) {
       console.error("Fetch payments error:", err);
       setPayments([]);
       setPaymentsTotal(0);
@@ -468,7 +468,7 @@ export default function AdminDashboard() {
 
       const data = await res.json();
       setTransactions(data.transactions || data.data || []);
-    } catch (err: any) {
+    } catch (err: unknown) {
       // Silently handle errors - transactions may not be available
       setTransactions([]);
     }
@@ -489,7 +489,7 @@ export default function AdminDashboard() {
       setToast({ type: "success", message: "User deleted successfully" });
       fetchUsers(usersPage);
       fetchStatistics();
-    } catch (err: any) {
+    } catch (err: unknown) {
       setToast({ type: "error", message: err.message });
     }
   }
@@ -509,7 +509,7 @@ export default function AdminDashboard() {
       setToast({ type: "success", message: "Meal deleted successfully" });
       fetchMeals(mealsPage);
       fetchStatistics();
-    } catch (err: any) {
+    } catch (err: unknown) {
       setToast({ type: "error", message: err.message });
     }
   }
@@ -980,7 +980,7 @@ function ReportsTab({
   const [allPayments, setAllPayments] = useState<Payment[]>([]);
   const [allTransactions, setAllTransactions] = useState<Transaction[]>([]);
 
-  const generateCSV = (data: any[], filename: string) => {
+  const generateCSV = (data: Record<string, unknown>[], filename: string) => {
     if (data.length === 0) {
       alert("No data to export");
       return;
@@ -1014,7 +1014,7 @@ function ReportsTab({
     document.body.removeChild(link);
   };
 
-  const generateJSON = (data: any, filename: string) => {
+  const generateJSON = (data: unknown, filename: string) => {
     const jsonContent = JSON.stringify(data, null, 2);
     const blob = new Blob([jsonContent], { type: "application/json" });
     const link = document.createElement("a");
@@ -1222,7 +1222,7 @@ function ReportsTab({
   const handleGenerateReport = async () => {
     setGenerating(true);
     try {
-      let reportData: any = {};
+      let reportData: Record<string, unknown> = {};
       let reportContent = "";
       let filename = "";
 
@@ -1491,7 +1491,7 @@ function ReportsTab({
       }
 
       alert("Report generated successfully!");
-    } catch (error: any) {
+    } catch (error: unknown) {
       console.error("Report generation error:", error);
       alert("Failed to generate report: " + error.message);
     } finally {
@@ -1558,7 +1558,7 @@ function ReportsTab({
               ].map((type) => (
                 <button
                   key={type.value}
-                  onClick={() => setReportType(type.value as any)}
+                  onClick={() => setReportType(type.value as typeof reportType)}
                   className={`p-4 rounded-lg border-2 transition ${
                     reportType === type.value
                       ? "border-cyan-500 bg-cyan-500/20"
@@ -1582,7 +1582,7 @@ function ReportsTab({
               ].map((fmt) => (
                 <button
                   key={fmt.value}
-                  onClick={() => setFormat(fmt.value as any)}
+                  onClick={() => setFormat(fmt.value as typeof format)}
                   className={`px-6 py-3 rounded-lg border-2 transition ${
                     format === fmt.value
                       ? "border-cyan-500 bg-cyan-500/20"
@@ -1646,7 +1646,7 @@ function OverviewTab({
   onFetchPayments: (page?: number) => void;
   onFetchTransactions: (page?: number) => void;
 }) {
-  const [chartData, setChartData] = useState<any[]>([]);
+  const [chartData, setChartData] = useState<Record<string, unknown>[]>([]);
 
   useEffect(() => {
     // Fetch payments and transactions for charts

@@ -52,7 +52,7 @@ export default function SignIn() {
       if (effectiveRole === "admin") router.push("/dashboard/admin");
       else if (effectiveRole === "staff") router.push("/dashboard/staff");
       else router.push("/dashboard/student");
-    } catch (err: any) {
+    } catch (err: unknown) {
       console.error("❌ Login error:", err);
       setError(err.message);
     } finally {

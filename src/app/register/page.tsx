@@ -80,7 +80,7 @@ export default function Register() {
           "Verification OTP sent to your email, please verify your account."
       );
       setStep("verify");
-    } catch (err: any) {
+    } catch (err: unknown) {
       setError(err.message || "Something went wrong.");
     } finally {
       setLoading(false);
@@ -108,7 +108,7 @@ export default function Register() {
 
       setSuccess(data.message || "OTP verified! Redirecting to login...");
       setTimeout(() => router.push("/signin"), 1500);
-    } catch (err: any) {
+    } catch (err: unknown) {
       setError(err.message || "OTP verification failed.");
     } finally {
       setLoading(false);

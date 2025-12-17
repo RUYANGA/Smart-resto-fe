@@ -1,7 +1,13 @@
 "use client";
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer } from "recharts";
 
-export function MealStatsChart({ data }: { data: any[] }) {
+// Define a type for the chart data
+type MealStatsChartData = {
+  date: string;
+  meals: number;
+};
+
+export function MealStatsChart({ data }: { data: MealStatsChartData[] }) {
   return (
     <ResponsiveContainer width="100%" height={300}>
       <BarChart data={data}>
