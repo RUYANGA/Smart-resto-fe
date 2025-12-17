@@ -1,5 +1,6 @@
 
 import Image from "next/image";
+import Link from "next/link";
 
 const heroStats = [
   { label: "Active Students", value: "1,245+" },
