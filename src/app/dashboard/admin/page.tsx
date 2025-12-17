@@ -1222,7 +1222,7 @@ function ReportsTab({
   const handleGenerateReport = async () => {
     setGenerating(true);
     try {
-      let reportData: Record<string, unknown> = {};
+      const reportData: Record<string, unknown> = {};
       let reportContent = "";
       let filename = "";
 
