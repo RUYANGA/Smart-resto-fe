@@ -189,7 +189,11 @@ export default function AdminDashboard() {
       ]);
     } catch (err: unknown) {
       console.error("Dashboard fetch error:", err);
-      setError(err.message || "Failed to load dashboard");
+      if (err && typeof err === "object" && "message" in err && typeof (err as any).message === "string") {
+        setError((err as any).message);
+      } else {
+        setError("Failed to load dashboard");
+      }
     } finally {
       setLoading(false);
     }
