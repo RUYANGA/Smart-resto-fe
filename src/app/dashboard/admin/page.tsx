@@ -318,7 +318,14 @@ export default function AdminDashboard() {
     } catch (err: unknown) {
       console.error("Statistics fetch error:", err);
       // Only set error for network errors, not HTTP errors
-      if (err.message?.includes("Failed to fetch") || err.message?.includes("NetworkError")) {
+      if (
+        err &&
+        typeof err === "object" &&
+        "message" in err &&
+        typeof (err as { message?: string }).message === "string" &&
+        ((err as { message?: string }).message?.includes("Failed to fetch") ||
+          (err as { message?: string }).message?.includes("NetworkError"))
+      ) {
         setError("Failed to connect to backend server. Make sure it's running on http://localhost:3003");
       }
     }
@@ -494,7 +501,12 @@ export default function AdminDashboard() {
       fetchUsers(usersPage);
       fetchStatistics();
     } catch (err: unknown) {
-      setToast({ type: "error", message: err.message });
+      setToast({ 
+        type: "error", 
+        message: (err && typeof err === "object" && "message" in err && typeof (err as { message?: string }).message === "string")
+          ? (err as { message: string }).message
+          : "Failed to delete user"
+      });
     }
   }
 
@@ -514,7 +526,12 @@ export default function AdminDashboard() {
       fetchMeals(mealsPage);
       fetchStatistics();
     } catch (err: unknown) {
-      setToast({ type: "error", message: err.message });
+      setToast({ 
+        type: "error", 
+        message: (err && typeof err === "object" && "message" in err && typeof (err as { message?: string }).message === "string")
+          ? (err as { message: string }).message
+          : "Failed to delete meal"
+      });
     }
   }
 
@@ -652,8 +669,6 @@ export default function AdminDashboard() {
             onFetchPayments={fetchPayments}
             onFetchTransactions={fetchTransactions}
             onDateFilterChange={setDateFilter}
-            token={token}
-            API_BASE_URL={API_BASE_URL}
             statistics={statistics}
           />
         )}
@@ -1469,19 +1484,19 @@ function ReportsTab({
 
       if (format === "csv") {
         if (reportType === "users" || reportType === "full") {
-          generateCSV(users, filename);
+          generateCSV(users as unknown as Record<string, unknown>[], filename);
         }
         if (reportType === "meals" || reportType === "full") {
-          generateCSV(meals, filename);
+          generateCSV(meals as unknown as Record<string, unknown>[], filename);
         }
         if (reportType === "payments" || reportType === "full") {
-          generateCSV(allPayments, filename);
+          generateCSV(allPayments as unknown as Record<string, unknown>[], filename);
         }
         if (reportType === "transactions" || reportType === "full") {
-          generateCSV(allTransactions, filename);
+          generateCSV(allTransactions as unknown as Record<string, unknown>[], filename);
         }
         if (reportType === "summary") {
-          generateCSV([reportData.summary], filename);
+          generateCSV([reportData.summary as Record<string, unknown>], filename);
         }
       } else if (format === "json") {
         generateJSON(reportData, filename);
@@ -1497,7 +1512,12 @@ function ReportsTab({
       alert("Report generated successfully!");
     } catch (error: unknown) {
       console.error("Report generation error:", error);
-      alert("Failed to generate report: " + error.message);
+      alert(
+        "Failed to generate report: " +
+          (error && typeof error === "object" && "message" in error && typeof (error as { message?: string }).message === "string"
+            ? (error as { message: string }).message
+            : String(error))
+      );
     } finally {
       setGenerating(false);
     }
